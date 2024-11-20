@@ -1,4 +1,11 @@
 <form [formGroup]="fg" (ngSubmit)="onSubmit()">
+  <label for="jahr">Jahr: </label>
+  <select id="jahr" formControlName="jahr">
+    @for (item of jahre; track $index) {
+    <option>{{ item }}</option>
+    }
+  </select>
+
   <label for="bruttoMonat">Brutto (monatlich): </label>
   <input id="bruttoMonat" type="number" formControlName="bruttoMonat" />
 
@@ -18,6 +25,7 @@
   <thead>
     <tr>
       <th></th>
+      <th>Jahr</th>
       <th>Brutto (monatlich)</th>
       <th>Alter</th>
       <th>Zusatzbeitrag</th>
@@ -27,6 +35,7 @@
       <th colspan="2">AV-Beitrag</th>
     </tr>
     <tr>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -45,6 +54,7 @@
     @for (item of data; track item.id) {
     <tr>
       <td><button type="button" (click)="onRemove($index)">X</button></td>
+      <td>{{ item.jahr }}</td>
       <td>{{ item.bruttoMonat }}&euro;</td>
       <td>{{ item.age }}</td>
       <td>{{ item.zusatzBeitragKv }}&percnt;</td>
