@@ -1,8 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
-const BEITRAGSSATZ_KV = 14.6;
 const BEITRAGSBEMESSUNGSGRENZE_KV = 5175;
+const BEITRAGSSATZ_KV = 14.6;
+const BEITRAGSSATZ_PV = 3.4;
+const BEITRAGSSATZ_PV_NO_CHILD = 0.6;
 
 @Component({
   selector: 'app-root',
@@ -20,7 +22,8 @@ export class AppComponent {
     id: new FormControl(0, { nonNullable: true }),
     bruttoMonat: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] }),
     age: new FormControl(28, { nonNullable: true, validators: [Validators.required, Validators.min(16)] }),
-    zusatzBeitragKv: new FormControl(1.7, { nonNullable: true, validators: [Validators.required, Validators.min(0)] })
+    zusatzBeitragKv: new FormControl(1.7, { nonNullable: true, validators: [Validators.required, Validators.min(0)] }),
+    hasChildren: new FormControl(false, { nonNullable: true }),
   })
 
   onSubmit() {
@@ -41,11 +44,23 @@ export class AppComponent {
     return Math.round(num * 100) / 100;
   }
 
-  getKv(item: IEinkommenData) {
-    const brutto = Math.min(item.bruttoMonat, BEITRAGSBEMESSUNGSGRENZE_KV);
-    const factor = (BEITRAGSSATZ_KV + item.zusatzBeitragKv) / 100
+  private getKvBrutto(brutto: number) {
+    return Math.min(brutto, BEITRAGSBEMESSUNGSGRENZE_KV)
+  }
 
-    return this.toFixed(brutto * factor / 2);
+  getKv(item: IEinkommenData) {
+    const factor = (BEITRAGSSATZ_KV + item.zusatzBeitragKv) / 100 / 2
+
+    return this.toFixed(this.getKvBrutto(item.bruttoMonat) * factor);
+  }
+
+  getPv(item: IEinkommenData, arbeitnehmer: boolean) {
+    let factor = BEITRAGSSATZ_PV / 100 / 2;
+    if (arbeitnehmer && item.age >= 23 && !item.hasChildren) {
+      factor += BEITRAGSSATZ_PV_NO_CHILD / 100;
+    }
+
+    return this.toFixed(this.getKvBrutto(item.bruttoMonat) * factor);
   }
 }
 
@@ -58,4 +73,5 @@ interface IEinkommenData {
   bruttoMonat: number;
   age: number;
   zusatzBeitragKv: number;
+  hasChildren: boolean;
 }
