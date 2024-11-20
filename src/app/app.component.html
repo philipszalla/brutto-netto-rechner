@@ -33,6 +33,10 @@
       <th colspan="2">PV-Beitrag</th>
       <th colspan="2">RV-Beitrag</th>
       <th colspan="2">AV-Beitrag</th>
+      <th>Lohnsteuer</th>
+      <th>Soli</th>
+      <th>Netto (monatlich)</th>
+      <th>zvE</th>
     </tr>
     <tr>
       <th></th>
@@ -48,6 +52,10 @@
       <th>AG</th>
       <th>AN</th>
       <th>AG</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -57,15 +65,20 @@
       <td>{{ item.jahr }}</td>
       <td>{{ item.bruttoMonat }}&euro;</td>
       <td>{{ item.age }}</td>
-      <td>{{ item.zusatzBeitragKv }}&percnt;</td>
-      <td>{{ getKv(item) }}&euro;</td>
-      <td>{{ getKv(item) }}&euro;</td>
-      <td>{{ getPv(item, true) }}&euro;</td>
-      <td>{{ getPv(item, false) }}&euro;</td>
-      <td>{{ getRv(item) }}&euro;</td>
-      <td>{{ getRv(item) }}&euro;</td>
-      <td>{{ getAv(item) }}&euro;</td>
-      <td>{{ getAv(item) }}&euro;</td>
+      <td>{{ item.zusatzBeitragKv | number: '1.1-1' }}&percnt;</td>
+      <td>{{ getKv(item) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getKv(item) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getPv(item, true) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getPv(item, false) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getRv(item) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getRv(item) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getAv(item) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getAv(item) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getLohnsteuer(item) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getSoli(item) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getNetto(item) | number: '1.2-2' }}&euro;</td>
+      <td>{{ getZvE(item) | number: '1.0-0'
+        }}&euro;</td>
     </tr>
     }
   </tbody>
