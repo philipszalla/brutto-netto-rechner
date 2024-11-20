@@ -6,6 +6,10 @@ const BEITRAGSSATZ_KV = 14.6;
 const BEITRAGSSATZ_PV = 3.4;
 const BEITRAGSSATZ_PV_NO_CHILD = 0.6;
 
+const BEITRAGSBEMESSUNGSGRENZE_RV = 7550;
+const BEITRAGSSATZ_RV = 18.6;
+const BEITRAGSSATZ_AV = 2.6;
+
 @Component({
   selector: 'app-root',
   imports: [ReactiveFormsModule],
@@ -61,6 +65,22 @@ export class AppComponent {
     }
 
     return this.toFixed(this.getKvBrutto(item.bruttoMonat) * factor);
+  }
+
+  private getRvBrutto(brutto: number) {
+    return Math.min(brutto, BEITRAGSBEMESSUNGSGRENZE_RV)
+  }
+
+  getRv(item: IEinkommenData) {
+    const factor = BEITRAGSSATZ_RV / 100 / 2
+
+    return this.toFixed(this.getRvBrutto(item.bruttoMonat) * factor);
+  }
+
+  getAv(item: IEinkommenData) {
+    const factor = BEITRAGSSATZ_AV / 100 / 2
+
+    return this.toFixed(this.getRvBrutto(item.bruttoMonat) * factor);
   }
 }
 

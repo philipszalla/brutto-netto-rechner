@@ -23,12 +23,18 @@
       <th>Zusatzbeitrag</th>
       <th colspan="2">KV-Beitrag</th>
       <th colspan="2">PV-Beitrag</th>
+      <th colspan="2">RV-Beitrag</th>
+      <th colspan="2">AV-Beitrag</th>
     </tr>
     <tr>
       <th></th>
       <th></th>
       <th></th>
       <th></th>
+      <th>AN</th>
+      <th>AG</th>
+      <th>AN</th>
+      <th>AG</th>
       <th>AN</th>
       <th>AG</th>
       <th>AN</th>
@@ -46,6 +52,10 @@
       <td>{{ getKv(item) }}&euro;</td>
       <td>{{ getPv(item, true) }}&euro;</td>
       <td>{{ getPv(item, false) }}&euro;</td>
+      <td>{{ getRv(item) }}&euro;</td>
+      <td>{{ getRv(item) }}&euro;</td>
+      <td>{{ getAv(item) }}&euro;</td>
+      <td>{{ getAv(item) }}&euro;</td>
     </tr>
     }
   </tbody>
